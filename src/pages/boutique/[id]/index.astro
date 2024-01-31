@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import Container from '../../../components/Container.astro';
+import Formulaire from '../../../components/formulaire';
 import Sociaux from '../../../components/sociaux';
 import { db } from '../../../firebase/client';
 import Pages from '../../../layouts/Pages.astro';
@@ -9,16 +10,19 @@ import { doc, getDoc } from "firebase/firestore";
 
 const { id } = Astro.params;
 
-const url = Astro.request.url
-const domaineName = new URL(url).origin
-const data =  await fetch(`${domaineName}/api/boutique.json`)
-const response = await data.json()
-const productItem = response !== undefined && response.filter(el => el.id === id)
+const refDocs = doc(db, "produits", id)
+const DataStore = await getDoc(refDocs)
 
-const produit = productItem[0]
 
-const priceParceInt = produit.price !== undefined ? parseInt(produit.price) : 0
-const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XAF'}).format(priceParceInt)
+const produit = DataStore.data()
+console.log(produit)
+let value = {};
+
+if(produit !== undefined){
+    value = {...produit}
+    value.price = produit.price === undefined ?  0 : parseInt(produit.price)
+}
+const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XAF'}).format(value.price)
 ---
 
 <style>
@@ -39,7 +43,7 @@ const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XA
 <Pages>
    <section class="screen bg-white">
         <Container>
-            <div class="h-[56px] flex items-center ">
+            <div class="h-[56px] flex  items-center ">
                 <div>
                     <a href="/boutique" class="flex items-center gap-4">
                         <div class="w-[38px] aspect-square flex items-center justify-center rounded-full bg-white ">
@@ -49,30 +53,32 @@ const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XA
                     </a>
                 </div>
             </div>
-            <div class="mt-6">
-                <div class="flex gap-9">
-                    <div class="w-[400px] aspect-square">
-                        <img src={produit.image} alt="" class="w-full object-cover aspect-square">
+            <div class="mt-6 px-4 lg:px-0">
+                <div class="flex flex-col lg:flex-row gap-9 ">
+                    <div class="w-full lg:w-[400px] aspect-square">
+                        <img src={value.image} alt="" class="w-full object-cover aspect-square">
                     </div>
-                    <div class="w-[500px]">
-                        <div class="text-4xl font-bold ">{produit.name}</div>
+                    <div class="w-full lg:w-[500px]">
+                        <div class="text-4xl font-bold ">{value.name}</div>
                         <div class="mb-[-5px] text-slate-800 mt-4">Categorie</div>
-                        <div class="text-2xl font-semibold uppercase">{produit.categorie}</div>
+                        <div class="text-2xl font-semibold uppercase">{value.categorie}</div>
 
                         <div class="mb-[-5px] text-slate-800 mt-4">Prix</div>
                         <div class="text-2xl font-semibold uppercase">{Price}</div>
 
 
                         <div class="mb-[-5px] text-slate-800 mt-4">Description</div>
-                        <pre class="pre text-2xl">{produit.description}</pre>
+                        <pre class="pre text-2xl">{value.description}</pre>
 
-                        <div class="mt-4">
-                            <a href={`/boutique/achat?id=${id}`} class="py-3 px-5 rounded-full bg-green-600 text-white w-full font-bold flex justify-center">Acheter</a>
-                        </div>
+                        
 
                         
                     </div>
                 </div>
+                <div>
+                    <div class="font-bold mt-5  text-2xl">Effectuer L'achat</div>
+                </div>
+                <Formulaire client:load produit= {produit} />
             </div>
         </Container>
    </section>

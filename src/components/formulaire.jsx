@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './formulaire.css'
 import { LineMdConfirm } from './icones'
+import { addDoc, collection } from 'firebase/firestore'
+import { db } from '../firebase/client'
 export default function Formulaire ({ produit }){
     const [validation, setValidation] = useState(false)
     
@@ -184,23 +186,23 @@ export default function Formulaire ({ produit }){
                 <form class="w-full">
                     <div class="champInput">
                         <label for="name">Nom</label>
-                        <input type="text" id="name" name="name" placeholder="Votre nom"/>
+                        <input type="text" id="name" name="name" placeholder="Votre nom" required/>
                     </div>
                     <div class="champInput">
                         <label for="name">Prénom</label>
-                        <input type="text" id="name" name="surname" placeholder="Votre nom"/>
+                        <input type="text" id="name" name="surname" placeholder="Votre nom" required/>
                     </div>
                     <div class="champInput">
                         <label for="ville">Ville de résidence</label>
-                        <input type="text" id="name" name="ville" placeholder="Votre ville de résidence"/>
+                        <input type="text" id="name" name="ville" placeholder="Votre ville de résidence" required/>
                     </div>
                     <div class="champInput">
                         <label for="tel">Téléphone</label>
-                        <input type="tel" id="name" name="tel" placeholder="Votre numéro de téléphone WhatsApp"/>
+                        <input type="tel" id="name" name="tel" placeholder="Votre numéro de téléphone WhatsApp" required/>
                     </div>
                     <div class="champInput">
                         <label for="mail">Adresse e-mail</label>
-                        <input type="email" id="mail" name="mail" placeholder="Votre e-mail"/>
+                        <input type="email" id="mail" name="mail" placeholder="Votre e-mail" required/>
                     </div>
                     <div class="mt-4">
                         <button class="px-5 py-1 bg-green-600 text-white rounded-md w-full lg:w-[200px] flex justify-center">Valider</button>
