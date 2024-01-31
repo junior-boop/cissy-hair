@@ -4,12 +4,26 @@ import Container from '../../components/Container.astro'
 import Video from '../../components/Video.astro'
 import { TitleBar } from '../../components/titre';
 import Sociaux from '../../components/sociaux';
+import { collection, getDocs } from 'firebase/firestore';
 
+async function getData(){
+    const refDocs = collection(db, "tutos")
+    const DataStore = await getDocs(refDocs)
+    let arr= []
 
-const url = Astro.url
-const _url = new URL(url)
-const response = await fetch(`${_url.origin}/api/tutos.json`)
-const data = await response.json()
+    if(!DataStore.empty) {
+        DataStore.forEach(Element => {
+            arr.push({
+                id : Element.id,
+                ...Element.data()
+            })
+        })
+    }
+
+    return arr
+}
+
+    const data = await getData()
 ---
 
 <style>
