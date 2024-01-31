@@ -1,0 +1,49 @@
+
+---
+import { NavItems } from './navItems';
+import BoutonFace from './boutonStore'
+import Menu from './menu-phone'
+---
+
+<header id="navigation" class="w-full h-max fixed z-50 transition-all duration-300">
+	<nav class="h-[72px] bg-white flex items-center pl-4 pr-0 lg:px-6">
+		<div class="flex-1">
+			<a href="/" class="flex h-6 w-fit">
+				<img src="/Name.png" />
+			</a>
+		</div>
+		<div class="lg:flex flex-1 justify-center lg:flex-[2] hidden">
+			<NavItems client:only name = 'Boutique' url='/boutique' />
+			<NavItems client:only name = 'Tutoriels' url='/tutoriel' />
+			<NavItems client:only name = 'Coiffeuses' url='/coiffeuses' />
+			<NavItems client:only name = 'A Propos' url='/about' />
+			<!-- <NavItems client:only name = 'Contactez-nous' url='/contacts' /> -->
+		</div>
+		<div class="flex-1 flex justify-end">
+			<BoutonFace client:load  />
+		</div>
+		<div class="h-full aspect-square flex items-center justify-center lg:hidden">
+			<Menu client:load  />
+		</div>
+	</nav>
+</header>
+
+<script>
+	const navigation = document.getElementById('navigation')
+	const object = {
+		position : 0,
+		sens : 0
+	}
+
+	addEventListener('scroll', (e) => {
+		object.sens = object.position - scrollY
+		object.position = scrollY
+		
+		if(object.sens <= 0) {
+			navigation.style.top = -72+"px"
+		} else {
+			navigation.style.top = 0+"px"
+		}
+
+	})
+</script>

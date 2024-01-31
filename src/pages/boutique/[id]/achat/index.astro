@@ -1,0 +1,62 @@
+---
+import Container from "../../../../components/Container.astro";
+import Formulaire from "../../../../components/formulaire";
+import { db } from "../../../../firebase/client";
+import Pages from "../../../../layouts/Pages.astro";
+import { doc, getDoc } from "firebase/firestore";
+
+export const prerender = false;
+const { id } = Astro.params
+
+const url = Astro.request.url
+const domaineName = new URL(url).origin
+const data =  await fetch(`${domaineName}/api/boutique.json`)
+const response = await data.json()
+const productItem = response !== undefined && response.filter(el => el.id = id)
+
+const produit = productItem[0]
+
+// console.log(produit)
+const priceParceInt = produit.price !== undefined ? parseInt(produit.price) : 0
+const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XAF'}).format(priceParceInt)
+---
+
+
+<Pages>
+    <section class="bg-white">
+        <Container>
+            <div class="h-[56px] flex items-center ">
+                <div>
+                    <a href="/boutique" class="flex items-center gap-4">
+                        <div class="w-[38px] aspect-square flex items-center justify-center rounded-full bg-white ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m10.828 12l4.95 4.95l-1.414 1.415L8 12l6.364-6.364l1.414 1.414z"/></svg>
+                        </div>
+                        <div>Retour</div>
+                    </a>
+                </div>
+            </div>
+        </Container>
+        <main>
+            <div class="flex gap-3 items-center border p-3 flex-col lg:flex-row  rounded-xl">
+                <div class="">
+                    <img src={produit.image} alt="" class="w-full lg:w-[75px] aspect-square object-cover">
+                </div>
+                <div class="flex gap-3 flex-1">
+                    <div class="flex-1">
+                        <div class="font-bold text">Nom</div>
+                        <div>{produit.name}</div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-bold text">Categorie</div>
+                        <div>{produit.categorie}</div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-bold text">Prix</div>
+                        <div>{Price}</div>
+                    </div>
+                </div>
+            </div>
+            <Formulaire client:load produit= {produit} />
+        </main>
+    </section>
+</Pages>

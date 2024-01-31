@@ -1,0 +1,48 @@
+---
+import Pages from '../../layouts/Pages.astro'
+import Container from '../../components/Container.astro'
+import Video from '../../components/Video.astro'
+import { TitleBar } from '../../components/titre';
+import Sociaux from '../../components/sociaux';
+
+
+const url = Astro.url
+const _url = new URL(url)
+const response = await fetch(`${_url.origin}/api/tutos.json`)
+const data = await response.json()
+---
+
+<style>
+    .min-height {
+        min-height: calc(100vh - 72px);
+    }
+</style>
+
+<Pages>
+    <div class="min-height">
+        <section class="py-[64px]">
+            <Container>
+                <div class="px-4 lg:px-0">
+                    <div class="text-6xl font-bold">Tutoriel.</div>
+                    <div class="text-6xl">Faites-le vous même.</div>
+                </div>
+            </Container>
+        </section>
+        <section class="bg-white py-[32px]">
+            <Container>
+                <TitleBar client:load titre={"Nos vidéos"} />
+                <div class="grid grid-cols-1 lg:grid-cols-3 w-full gap-4 px-4 lg:px-0">
+                    {
+                        data.map( (el) => <Video data = {el} />)
+                    }
+                </div>
+            </Container>
+        </section>
+    </div>
+    <Container>
+        <TitleBar titre={"Suivez nous sur les réseaux"} />
+        <Sociaux client:load
+            classe = "line-height-1"
+        />
+    </Container>
+</Pages>

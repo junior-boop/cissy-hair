@@ -1,0 +1,70 @@
+---
+import Container from "./container";
+
+const today = new Date();
+---
+
+<footer > 
+	<section>
+		<Container client:load>
+			<div class="copyright">
+				<div>
+					2023© Copyright &nbsp; <strong><span>Cissy's Hair</span></strong>. All Rights Reserved
+				</div>
+				</div>
+				<div class="text-center">Designed by <a href="https://geniusofdigital.com/">GeniusOfDigital</a>
+			</div>
+		</Container>
+	</section>
+</footer>
+<style>
+footer * {
+  color: white;
+}
+footer section:last-child {
+  background-color: #E52087;
+  padding: 32px 0;
+}
+footer section:last-child .copyright {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:0 16px;
+}
+
+footer section:last-child .copyright div:first-child {
+	text-align: center;
+}
+footer section:last-child .copyright * {
+  color: white;
+}
+.footer {
+    display: flex;
+    align-items: flex-start;
+}
+.footer * {
+    font-size: 18px;
+    color : #333
+}
+.footer > aside:first-child {
+    flex: 2;
+}
+.footer > aside {
+    flex: 1;
+    padding: 0 12px;
+}
+.footer > aside ul {
+    list-style: none;
+    padding-left: 0px;
+}
+.footer > aside li {
+    margin-bottom: 10px;
+}
+.footer > aside ul li:hover a {
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
+.footer > aside ul a {
+    text-decoration: none
+}
+</style>

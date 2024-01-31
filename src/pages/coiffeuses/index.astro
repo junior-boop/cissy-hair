@@ -1,0 +1,49 @@
+---
+import Pages from '../../layouts/Pages.astro'
+import Container from '../../components/Container.astro'
+import Coiffeuses from '../../components/Coiffeuses.astro'
+import { TitleBar } from '../../components/titre';
+import Sociaux from '../../components/sociaux';
+
+
+const url = Astro.url
+const _url = new URL(url)
+const response = await fetch(`${_url.origin}/api/coiffeuses.json`)
+const data = await response.json()
+---
+
+<style>
+    .min-height {
+        min-height: calc(100vh - 72px);
+    }
+</style>
+
+<Pages>
+    <div class="min-height">
+        <section class="py-[64px]">
+            <Container>
+                <div class="px-4 lg:px-0">
+                    <div class="text-6xl font-bold">Coiffeuses.</div>
+                    <div class="text-6xl">Prennez contact avec nos proffessionnelles.</div>
+                </div>
+            </Container>
+        </section>
+        <section class="bg-white py-[32px]">
+            <Container>
+                <TitleBar client:load titre={"Nos professionnelles"} />
+                <div class="grid grid-cols-1 lg:grid-cols-4 w-full gap-4">
+                    {
+                        data.map( (el) => <Coiffeuses data = {el} />)
+                    }
+                </div>
+                
+            </Container>
+        </section>
+    </div>
+    <Container>
+        <TitleBar titre={"Suivez nous sur les réseaux"} />
+        <Sociaux client:load
+            classe = "line-height-1"
+        />
+    </Container>
+</Pages>

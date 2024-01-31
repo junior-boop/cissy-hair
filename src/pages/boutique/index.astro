@@ -1,0 +1,85 @@
+---
+import Container from '../../components/Container.astro'
+import Pages from '../../layouts/Pages.astro'
+import FilterComponent from '../../components/filtre'
+import { TitleBar } from '../../components/titre';
+import Produits from '../../components/Produits.astro'
+
+
+import { db } from "../../firebase/client";
+import { collection, getDocs } from "firebase/firestore";
+import Sociaux from '../../components/sociaux';
+
+type DataProps = {
+    id: string,
+    image : string,
+    name : string,
+    createdAt : number,
+    price : string,
+    description : string
+}
+
+
+
+async function getData(){
+    const refDocs = collection(db, "produits")
+    const DataStore = await getDocs(refDocs)
+    let arr: DataProps[] = []
+
+    if(!DataStore.empty) {
+        DataStore.forEach(Element => {
+            arr.push({
+                id : Element.id,
+                ...Element.data()
+            })
+        })
+    }
+
+    return arr
+}
+
+    const data = await getData()
+---
+
+<style>
+    .line-height-1 {
+        line-height: 1;
+    }
+    .titre {
+
+    }
+</style>
+
+<Pages>
+    <section class="py-[64px]">
+        <Container>
+        <div class="px-4 lg:px-0">
+            <div class="text-6xl font-bold">Boutique.</div>
+            <div class="text-6xl">Achetez auprès des créateurs.</div>
+        </div>
+        </Container>
+    </section>
+    <section class="bg-white">
+        <Container>
+            <FilterComponent/>
+            <div>
+                <div class="flex gap-3 items-center mb-4 flex-col lg:flex-row px-4 lg:px-0">
+                    <input type="text" name="" id="" class="flex-1 border px-4 py-2 w-full" placeholder="Entrez le code promotionnel">
+                    <button class="px-5 py-1 bg-sky-700 rounded-lg text-white w-full lg:w-max">Recheche</button>
+                </div>
+            </div>
+            <TitleBar titre = "Liste" />
+            <div>
+                <div class="grid grid-cols-2 lg:grid-cols-3 lg:gap-[21px] gap-3 w-[92vw] lg:w-full mt-0 mx-auto mb-28">
+                    {
+                        data.map(el => <Produits data = {el} />)
+                    }
+                </div>
+            </div>
+            <TitleBar titre={"Suivez nous sur les réseaux"} />
+			<Sociaux client:load
+				classe = "line-height-1"
+			/>
+        </Container>
+    </section>
+</Pages>

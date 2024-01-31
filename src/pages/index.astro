@@ -1,0 +1,218 @@
+---
+import Banniere from '../components/banniere';
+import Pages from '../layouts/Pages.astro'
+import Container from '../components/container';
+import { TitleBar } from '../components/titre'
+import Grid, {GridElement, ProductPresentation, ProductItem, SociauxItem} from '../components/grid'
+
+import Sociaux from '../components/sociaux'
+import image_1 from '../content/image/image_2.png'
+import { RiPlayFill } from '../components/icones';
+---
+
+<style>
+	.line-height-1 {
+		line-height: 1;
+	}
+	.element1 {
+		font-family: Inter;
+		font-style: normalizeIntegration;
+		line-height: 1;
+	}
+
+	.ligne2{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+
+	.ligne2 span:first-child {
+		font-weight: 700;
+		margin-bottom: 6px;
+		font-size: 32px;
+	}
+	.ligne2 span:last-child{
+		font-family: Inter;
+		display: block;
+		font-style: normalizeIntegration;
+		line-height: 1;
+		@apply font-extrabold text-center;
+
+		background: radial-gradient(128.4% 432.7% at -24.51% 152.14%, #CB01EC 0%, #FF0000 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-fill-color:transparent;
+	}
+
+	.ligne3{
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		justify-content: flex-end;
+		height: 100%;
+	}
+
+	.ligne3 span {
+		@apply block w-[248px] font-extrabold text-[72px] text-right ;
+		font-family: Inter;
+		font-style: normalizeIntegration;
+		line-height: 1;
+
+		background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 155.22%) ;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-fill-color:transparent;
+	}
+
+	.ligne4 {
+		@apply flex flex-col items-start justify-end h-full ;
+	}
+
+	.ligne4 span {
+		@apply block w-[298px] font-extrabold text-[72px] text-left  ;
+		font-family: Inter;
+		font-style: normalizeIntegration;
+		line-height: 1;
+
+		background: linear-gradient(130.3deg, #000000 9.21%, rgba(250, 0, 255, 0.47) 72.94%) ;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-fill-color:transparent;
+	}
+
+	.proximite {
+		@apply flex flex-col items-start justify-end h-full ;
+	}
+
+	.proximite span {
+		@apply block w-[308px] text-[62px] text-left text-[#252B5B] font-extrabold ;
+		font-family: Inter;
+		font-style: normalizeIntegration;
+		line-height: 1;
+	}
+	.ligne5 {
+		@apply flex flex-col items-start justify-center h-full ;
+	}
+
+	.ligne5 span:first-child {
+		
+		line-height: 1;
+		@apply font-bold mb-[12px] text-[32px] w-[250px];
+	}
+
+	.ligne5 span:last-child {
+		font-family: Inter;
+		font-style: normalizeIntegration;
+		line-height: 1;
+		@apply block font-extrabold text-[48px] text-left ;
+
+		background: radial-gradient(128.4% 432.7% at -24.51% 152.14%, #CB01EC 0%, #FF0000 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-fill-color:transparent;
+	}
+</style>
+
+
+<Pages>
+		<Banniere client:load image = {'/fond.png'} />
+		<main>
+			<div class="text-4xl" style = "padding : 4rem 0; width : 100%; text-align : center; font-weight : normal">
+				Les mèches à tresser selon 
+                <span>
+                    <img src='/Name.png'  alt="cissy" />
+                </span>
+			</div>
+			<div
+				class="text-base p-6 bg-[#F7F1FE] mb-7 rounded-xl "
+			>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat tempus mauris. Nullam vestibulum euismod est varius rhoncus. Phasellus tortor neque, ornare ac augue id, luctus fermentum neque. Nullam aliquet risus in neque dictum, id placerat lorem laoreet. Cras pharetra tellus a mauris consequat pretium. Nullam leo orci, molestie ut vulputate eget, sodales vel ligula.
+            </div>
+		</main>
+		<Container client:load>
+			<TitleBar titre={"Toutes nos gammes de Produits"} btn url={'/boutique'}/>
+			<Grid id={'rien'}>
+				<GridElement classe='col-span-12 bg-[url(/image_2.png)]' btn>
+					<div class="flex flex-col items-start justify-end py-0 px-4 lg:px-6 max-w-[70%] h-full">
+						<span class="line-height-1 font-bold mb-[7px] text-[24px] lg:text-[36px] text-white">Deux beautés</span>
+						<span 
+							class="element1 block font-extrabold text-white text-[2.5em] lg:text-[4.5em] w-full"
+						> 
+
+						<div>Spring Twist</div>
+						<div>Passion Twist</div>
+						</span>
+					</div>
+				</GridElement>
+				<GridElement client:load classe='col-span-8 bg-[url(/image_1.jpg)]' ></GridElement>
+				<GridElement classe="col-span-4" btn url='/meches/spanish Cours' >
+					<div class="ligne2">
+						<span>La simplicité</span>
+						<span class="text-[64px]"> Spanish Cours
+						</span>
+					</div>
+				</GridElement>
+				<GridElement classe='col-span-6 bg-[url(/image_7.png)]' image>
+					<div class="ligne3">
+						<span> 
+							French Baids
+						</span>
+					</div>
+				</GridElement>
+				<GridElement classe='col-span-6 bg-[url(/image_9.png)]' image>
+					<div class="ligne4">
+						<span> 
+							Straight Braiding Hair
+						</span>
+					</div>
+				</GridElement>
+			</Grid>
+			<TitleBar titre={"Nous vous Accompagnons "} />
+			<Grid>
+				<GridElement classe='col-span-4' btn url={'/tutoriel'}>
+					<div class="ligne2">
+						<span>Avec nos tutoriels</span>
+						<span class="text-[58px]">Faites le vous même</span>
+					</div>
+				</GridElement>
+				<GridElement classe='col-span-8 bg-[url(/tuto_femme.avif)]' image>
+					<div class = 'flex items-center justify-center h-full'>
+						<button class="w-[100px] aspect-square bg-slate-50 flex items-center justify-center rounded-full">
+							<RiPlayFill client:load class = "w-[24px] h-[24px]"/>
+						</button>
+					</div>
+				</GridElement>
+				<GridElement classe='col-span-12 bg-[url(/carte.png)]' btn image notBlack url='/contacts'>
+					<div class="proximite">
+						<span> Notre Proximite </span>
+					</div>
+				</GridElement>
+				<GridElement classe='col-span-4' btn long url='/coiffeuses'>
+					<div class="ligne5">
+						<span>Prennez contact avec</span>
+						<span> Nos Coiffeuses Partenaires</span>
+					</div>
+				</GridElement>
+				<GridElement classe='col-span-4 bg-[url(/expert_1.jpg)]' long></GridElement>
+				<GridElement classe='col-span-4 bg-[url(/expert_2.jpg)]' long></GridElement>
+			</Grid>
+			<TitleBar titre={"Notre Boutique"} btn url='/boutique' />
+			<ProductPresentation>
+				<ProductItem />
+				<ProductItem />
+				<ProductItem />
+			</ProductPresentation>
+
+			<TitleBar titre={"Suivez nous sur les réseaux"} />
+			<Sociaux client:load
+				classe = "line-height-1"
+			/>
+		</Container>
+</Pages>
+

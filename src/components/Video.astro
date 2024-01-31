@@ -1,0 +1,11 @@
+---
+const data = Astro.props.data
+---
+
+<a class="block" href={data.url}>
+    <div class="w-full aspect-video rounded-xl bg-slate-200">
+        <img src={data.image} alt="">
+    </div>
+    <div class="mt-2 font-bold">{data.titre}</div>
+    <div class="text-base ">Durée : {data.duree} minutes</div>
+</a>

@@ -1,0 +1,16 @@
+---
+const data = Astro.props.data
+---
+
+<div>
+    <div class="w-full aspect-square overflow-hidden bg-slate-200 rounded-xl border">
+        <img src={data.image} alt="" class="w-full h-full object-cover">
+    </div>
+
+    <div class="mt-2">
+        <div class="text-xl font-bold">{data.name}</div>
+        <div class="mt-[-5px]">Ville : {data.ville}</div>
+        <div class="mt-[-5px]">Quartier : {data.quartier}</div>
+        <div class="mt-[-5px]">Téléphone : {data.tel}</div>
+    </div>
+</div>
