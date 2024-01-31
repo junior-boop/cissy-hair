@@ -9,7 +9,7 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "server",
+  output: "hybrid",
   site: 'https://example.com',
   integrations: [mdx(), sitemap(), react({
     experimentalReactChildren: true

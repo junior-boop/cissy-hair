@@ -2,18 +2,19 @@
 import Container from "../../../components/Container.astro";
 import Formulaire from "../../../components/formulaire";
 import Pages from "../../../layouts/Pages.astro";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../../../firebase/client";
+
 
 export const prerender = false;
 const search = Astro.url.searchParams
 const id = search.get('id')
 
-const url = Astro.request.url
-const domaineName = new URL(url).origin
-const data =  await fetch(`${domaineName}/api/boutique.json`)
-const response = await data.json()
-const productItem = response !== undefined && response.filter(el => el.id === id)
+const refDocs = doc(db, "produits", id)
+const DataStore = await getDoc(refDocs)
 
-const produit = productItem[0]
+
+const produit = DataStore.data()
 
 const priceParceInt = produit.price !== undefined ? parseInt(produit.price) : 0
 const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XAF'}).format(priceParceInt)
