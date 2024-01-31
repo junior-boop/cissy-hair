@@ -1,22 +1,20 @@
 ---
-import Container from "../../../../components/Container.astro";
-import Formulaire from "../../../../components/formulaire";
-import { db } from "../../../../firebase/client";
-import Pages from "../../../../layouts/Pages.astro";
-import { doc, getDoc } from "firebase/firestore";
+import Container from "../../../components/Container.astro";
+import Formulaire from "../../../components/formulaire";
+import Pages from "../../../layouts/Pages.astro";
 
 export const prerender = false;
-const { id } = Astro.params
+const search = Astro.url.searchParams
+const id = search.get('id')
 
 const url = Astro.request.url
 const domaineName = new URL(url).origin
 const data =  await fetch(`${domaineName}/api/boutique.json`)
 const response = await data.json()
-const productItem = response !== undefined && response.filter(el => el.id = id)
+const productItem = response !== undefined && response.filter(el => el.id === id)
 
 const produit = productItem[0]
 
-// console.log(produit)
 const priceParceInt = produit.price !== undefined ? parseInt(produit.price) : 0
 const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XAF'}).format(priceParceInt)
 ---

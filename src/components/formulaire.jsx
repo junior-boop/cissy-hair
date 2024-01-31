@@ -3,8 +3,6 @@ import './formulaire.css'
 import { LineMdConfirm } from './icones'
 export default function Formulaire ({ produit }){
     const [validation, setValidation] = useState(false)
-
-    console.log(produit)
     
     const price = () => {
         const r = parseInt(produit.price)

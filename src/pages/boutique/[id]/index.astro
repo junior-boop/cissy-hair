@@ -13,11 +13,10 @@ const url = Astro.request.url
 const domaineName = new URL(url).origin
 const data =  await fetch(`${domaineName}/api/boutique.json`)
 const response = await data.json()
-const productItem = response !== undefined && response.filter(el => el.id = id)
+const productItem = response !== undefined && response.filter(el => el.id === id)
 
 const produit = productItem[0]
 
-// console.log(produit)
 const priceParceInt = produit.price !== undefined ? parseInt(produit.price) : 0
 const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XAF'}).format(priceParceInt)
 ---
@@ -68,7 +67,7 @@ const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XA
                         <pre class="pre text-2xl">{produit.description}</pre>
 
                         <div class="mt-4">
-                            <a href={`/boutique/${id}/achat`} class="py-3 px-5 rounded-full bg-green-600 text-white w-full font-bold flex justify-center">Acheter</a>
+                            <a href={`/boutique/achat?id=${id}`} class="py-3 px-5 rounded-full bg-green-600 text-white w-full font-bold flex justify-center">Acheter</a>
                         </div>
 
                         
