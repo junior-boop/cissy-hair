@@ -5,6 +5,7 @@ import Video from '../../components/Video.astro'
 import { TitleBar } from '../../components/titre';
 import Sociaux from '../../components/sociaux';
 import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase/client';
 
 async function getData(){
     const refDocs = collection(db, "tutos")
