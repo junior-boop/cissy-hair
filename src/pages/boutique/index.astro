@@ -9,8 +9,6 @@ import Sociaux from '../../components/sociaux';
 const _url = Astro.url
 const response = await fetch(_url.origin + '/api/boutique.json') 
 const data = await response.json()
-
-
 ---
 
 <style>
@@ -33,7 +31,7 @@ const data = await response.json()
     </section>
     <section class="bg-white">
         <Container>
-            <FilterComponent client:load passing_url= {_url}/>
+            <FilterComponent client:load />
             <div>
                 <div class="flex gap-3 items-center mb-4 flex-col lg:flex-row px-4 lg:px-0">
                     <input type="text" name="" id="" class="flex-1 border px-4 py-2 w-full" placeholder="Entrez le code promotionnel">
@@ -44,7 +42,7 @@ const data = await response.json()
             <div>
                 <div class="grid grid-cols-2 lg:grid-cols-3 lg:gap-[21px] gap-3 w-[92vw] lg:w-full mt-0 mx-auto mb-28">
                     {
-                        data.map(el => <Produits data = {el} />)
+                        data.map((el, key) => <Produits data = {el} key = {key} />)
                     }
                 </div>
             </div>
@@ -55,9 +53,3 @@ const data = await response.json()
         </Container>
     </section>
 </Pages>
-
-<script>
-    import Produits from "../../components/Produits.astro"
-    const url = location.hash
-    console.log(url, Produits)
-</script>
