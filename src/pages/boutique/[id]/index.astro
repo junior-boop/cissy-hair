@@ -7,22 +7,26 @@ import { db } from '../../../firebase/client';
 import Pages from '../../../layouts/Pages.astro';
 
 import { doc, getDoc } from "firebase/firestore";
+import Gallerie_img from '../../../components/gallerie_images'
 
 const { id } = Astro.params;
-
 const refDocs = doc(db, "produits", id)
 const DataStore = await getDoc(refDocs)
 
+const _url = Astro.url
+const response = await fetch(_url.origin + '/api/boutique.json/') 
+const data = await response.json()
 
-const produit = DataStore.data()
-console.log(produit)
-let value = {};
+const item = data.filter(el => el.id === id)
 
-if(produit !== undefined){
-    value = {...produit}
-    value.price = produit.price === undefined ?  0 : parseInt(produit.price)
-}
-const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XAF'}).format(value.price)
+// const produit = DataStore.data()
+
+
+
+const value = {...item[0]}
+value.price = item[0]?.price === undefined ?  0 : parseInt(item[0]?.price)
+
+const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XAF'}).format(value?.price)
 ---
 
 <style>
@@ -55,30 +59,25 @@ const Price = new Intl.NumberFormat('fr-Fr', {style : 'currency', currency : 'XA
             </div>
             <div class="mt-6 px-4 lg:px-0">
                 <div class="flex flex-col lg:flex-row gap-9 ">
-                    <div class="w-full lg:w-[400px] aspect-square">
-                        <img src={value.image} alt="" class="w-full object-cover aspect-square">
-                    </div>
+                    <Gallerie_img client:load images = {value?.images} />
                     <div class="w-full lg:w-[500px]">
-                        <div class="text-4xl font-bold ">{value.name}</div>
+                        <div class="text-4xl font-bold ">{value?.name}</div>
                         <div class="mb-[-5px] text-slate-800 mt-4">Categorie</div>
-                        <div class="text-2xl font-semibold uppercase">{value.categorie}</div>
+                        <div class="text-2xl font-semibold uppercase">{value?.categorie}</div>
 
                         <div class="mb-[-5px] text-slate-800 mt-4">Prix</div>
                         <div class="text-2xl font-semibold uppercase">{Price}</div>
 
 
                         <div class="mb-[-5px] text-slate-800 mt-4">Description</div>
-                        <pre class="pre text-2xl">{value.description}</pre>
-
-                        
-
+                        <pre class="pre text-2xl">{value?.description}</pre>
                         
                     </div>
                 </div>
                 <div>
                     <div class="font-bold mt-5  text-2xl">Effectuer L'achat</div>
                 </div>
-                <Formulaire client:load produit= {produit} />
+                <Formulaire client:load produit= {item[0]} />
             </div>
         </Container>
    </section>

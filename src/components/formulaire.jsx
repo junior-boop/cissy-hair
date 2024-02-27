@@ -19,7 +19,7 @@ export default function Formulaire ({ produit }){
 
         const target = e.target
         const commandes = {
-            order : produit,
+            order : [produit],
             amount : price(),
             customer : {
                 name : target.name.value,
