@@ -3,23 +3,17 @@ export const prerender = false;
 import Container from '../../../components/Container.astro';
 import Formulaire from '../../../components/formulaire';
 import Sociaux from '../../../components/sociaux';
-import { db } from '../../../firebase/client';
 import Pages from '../../../layouts/Pages.astro';
 
-import { doc, getDoc } from "firebase/firestore";
 import Gallerie_img from '../../../components/gallerie_images'
 
 const { id } = Astro.params;
-const refDocs = doc(db, "produits", id)
-const DataStore = await getDoc(refDocs)
 
 const _url = Astro.url
 const response = await fetch(_url.origin + '/api/boutique.json/') 
 const data = await response.json()
 
 const item = data.filter(el => el.id === id)
-
-// const produit = DataStore.data()
 
 
 
