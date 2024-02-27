@@ -9,7 +9,7 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "hybrid",
+  output: "server",
   site: 'https://cissy-hair.pages.dev/',
   integrations: [mdx(), sitemap(), react({
     experimentalReactChildren: true

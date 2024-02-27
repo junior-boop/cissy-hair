@@ -5,10 +5,33 @@ import FilterComponent from '../../components/filtre'
 import { TitleBar } from '../../components/titre';
 import Produits from '../../components/Produits.astro'
 import Sociaux from '../../components/sociaux';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase/client';
 
-const _url = Astro.url
-const response = await fetch(_url.origin + '/api/boutique.json') 
-const data = await response.json()
+
+    async function getData() : Promise<[]>{
+        const refDocs = collection(db, "produits")
+        const DataStore = await getDocs(refDocs)
+        let arr = []
+    
+        if(!DataStore.empty) {
+            DataStore.forEach(Element => {
+                arr.push({
+                    id : Element.id,
+                    ...Element.data()
+                })
+            })
+        }
+    
+        return arr
+    }
+
+
+// const _url = Astro.url
+// const response = await fetch(_url.origin + '/api/boutique.json') 
+const data = await getData()
+
+
 ---
 
 <style>
@@ -42,7 +65,7 @@ const data = await response.json()
             <div>
                 <div class="grid grid-cols-2 lg:grid-cols-3 lg:gap-[21px] gap-3 w-[92vw] lg:w-full mt-0 mx-auto mb-28">
                     {
-                        data.map((el, key) => <Produits data = {el} key = {key} />)
+                        data.map(el => <Produits data = {el} />)
                     }
                 </div>
             </div>
@@ -53,3 +76,9 @@ const data = await response.json()
         </Container>
     </section>
 </Pages>
+
+<script>
+    import Produits from "../../components/Produits.astro"
+    const url = location.hash
+    console.log(url, Produits)
+</script>
